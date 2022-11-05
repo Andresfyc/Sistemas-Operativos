@@ -2,30 +2,42 @@
 #include <stdlib.h>
 #include <err.h>
 
-int main(int argc, char* argv[]) {
-	FILE* file=NULL;
-	int c,ret;
+#define NUM_ALPHA  5
 
-	if (argc!=2) {
-		fprintf(stderr,"Usage: %s <file_name>\n",argv[0]);
+int main(int argc, char* argv[]) {
+	FILE* file; FILE*file2;
+
+    char buffer[5];
+    char buffer2[5];
+
+
+	if (argc!=3) {
+        fprintf(stderr,"Usage: %s <file_name> <file_name_2> \n",argv[0]);
 		exit(1);
 	}
 
-	/* Open file */
+	/* Open file*/
 	if ((file = fopen(argv[1], "r")) == NULL)
 		err(2,"The input file %s could not be opened",argv[1]);
 
-	/* Read file byte by byte */
-	while ((c = getc(file)) != EOF) {
-		/* Print byte to stdout */
-		ret=putc((unsigned char) c, stdout);
+    if ((file2 = fopen(argv[2], "w+")) == NULL)
+        err(2,"The input file %s could not be opened",argv[2]);
 
-		if (ret==EOF){
-			fclose(file);
-			err(3,"putc() failed!!");
-		}
-	}
+    int c = fread(&buffer, sizeof( char ), 5, file );
+    printf( "Number of characters read = %i\n", c );
+    printf("File 1 -> %s",buffer);
 
-	fclose(file);
-	return 0;
+    fclose(file);
+    fwrite(&buffer, sizeof(char), 5 , file2);
+
+    fseek(file2, 0 , SEEK_SET);
+    int c2 = fread(&buffer2, sizeof(char), 5, file2 );
+    printf( "Number of characters read 2= %i\n", c2 );
+    printf("File 2 -> %s",buffer2);
+
+
+
+    fclose(file2);
+
+    return 0;
 }

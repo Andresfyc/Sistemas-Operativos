@@ -11,6 +11,8 @@ void copy(int fdo, int fdd)
 
 	ssize_t bytes_read;
 
+
+	printf("Comienzo de COPIA\n");
 	/* Bucle de lectura/escritura */
 	while ((bytes_read = read(fdo, &buffer, sizeof(char))) > 0)
 	{
@@ -29,7 +31,7 @@ int main(int argc, char *argv[])
 	/* Comprobamos que se pasan dos argumentos */
 	if (argc != 3)
 	{
-		printf("Uso: %s origen destino\n", argv[0]);
+		printf("Uso: %s <origen> <destino>\n", argv[0]);
 		exit(1);
 	}
 
