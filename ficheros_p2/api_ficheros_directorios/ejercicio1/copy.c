@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 char buffer[512];
 
@@ -36,13 +37,13 @@ int main(int argc, char *argv[])
 	}
 
 	/* Abrimos los dos archivos */
-	if ((fd1 = open(buffer, O_RDONLY | O_CREAT )) == -1)
+	if ((fd1 = open( argv[1], O_RDONLY | O_CREAT )) == -1)
 	{
 		perror("No se puede abrir el archivo de origen\n");
 		exit(1);
 	}
 
-	if ((fd2 = open(buffer, O_WRONLY | O_CREAT | O_TRUNC)) == -1)
+	if ((fd2 = open( argv[2], O_WRONLY | O_CREAT | O_TRUNC)) == -1)
 	{
 		perror("No se puede abrir el archivo de destino\n");
 		exit(1);
